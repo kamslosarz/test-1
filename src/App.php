@@ -15,13 +15,11 @@ class App
      */
     public function __invoke(int $numberOfCodes, int $lengthOfCode, string $outputFile)
     {
+        $fileStorage = new FileStorage($this->getStorageDir());
         $codeGenerator = new CodeGenerator();
         $codes = $codeGenerator->generate($numberOfCodes, $lengthOfCode);
 
-        $fileStorage = new FileStorage();
-        $fileStorage->saveArray($codes, $outputFile);
-
-        return $outputFile;
+        return $fileStorage->saveArray($codes, $outputFile);
     }
 
     public function validate(array $parameters): void
@@ -43,5 +41,10 @@ class App
             throw new \Exception(sprintf('File %s is not writeable', $parameters[3]));
         }
 
+    }
+
+    private function getStorageDir(): string
+    {
+        return dirname(__DIR__) . '/public/output/';
     }
 }

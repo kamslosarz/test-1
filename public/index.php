@@ -34,12 +34,17 @@ if(strtolower($_SERVER["REQUEST_METHOD"]) === 'post')
             null,
             $_POST['numberOfCodes'] ?? null,
             $_POST['lengthOfCode'] ?? null,
-            $_POST['outputFile'] ? (__DIR__ . '/output/' . $_POST['outputFile']) : null
+            $_POST['outputFile'] ?? null
         ];
         $app->validate($parameters);
         $file = $app($parameters[1], $parameters[2], $parameters[3]);
-
-        echo 'Kody zostały zapisane w ' . $file;
+        ob_clean();
+        header('Content-Description: File Transfer');
+        header('Content-Type: text/plain');
+        header('Content-Disposition: attachment; filename="' . basename($_POST['outputFile']) . '"');
+        header('Content-Length: ' . filesize($file));
+        readfile($file);
+        exit;
     }
     catch(\Exception $exception)
     {
