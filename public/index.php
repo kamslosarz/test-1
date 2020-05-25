@@ -34,7 +34,7 @@ if(strtolower($_SERVER["REQUEST_METHOD"]) === 'post')
             null,
             $_POST['numberOfCodes'] ?? null,
             $_POST['lengthOfCode'] ?? null,
-            $_POST['outputFile'] ?? null
+            $_POST['outputFile'] ? (__DIR__ . '/output/' . $_POST['outputFile']) : null
         ];
         $app->validate($parameters);
         $file = $app($parameters[1], $parameters[2], $parameters[3]);

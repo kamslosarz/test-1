@@ -15,7 +15,7 @@ class App
      */
     public function __invoke(int $numberOfCodes, int $lengthOfCode, string $outputFile)
     {
-        $fileStorage = new FileStorage($this->getStorageDir());
+        $fileStorage = new FileStorage();
         $codeGenerator = new CodeGenerator();
         $codes = $codeGenerator->generate($numberOfCodes, $lengthOfCode);
 

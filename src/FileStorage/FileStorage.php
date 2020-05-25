@@ -6,11 +6,6 @@ class FileStorage
 {
     protected string $storageDir;
 
-    public function __construct($storageDir)
-    {
-        $this->storageDir = $storageDir;
-    }
-
     public function saveArray(array $data, string $filename): string
     {
         $contents = '';
@@ -19,15 +14,10 @@ class FileStorage
             $contents .= $item . PHP_EOL;
         }
 
-        $file = $this->storageDir . $filename;
-        touch($file);
-        file_put_contents($file, $contents);
+        touch($filename);
+        file_put_contents($filename, $contents);
 
-        return $file;
+        return $filename;
     }
 
-    public function getFilePath(string $filename): string
-    {
-        return $this->storageDir . $filename;
-    }
 }
